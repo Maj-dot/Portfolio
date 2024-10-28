@@ -1,0 +1,351 @@
+/* Color Variables */
+:root {
+    --primary-color: #A0522D; /* Sienna Brown */
+    --secondary-color: #8B4513; /* Saddle Brown */
+    --background-light: #f4f4f4;
+    --background-dark: #4b2e2e; /* Rich dark brown */
+    --text-dark: #333;
+    --text-light: #f5f5f5;
+    --accent-color: #CD853F; /* Peru */
+    --hover-dark: #5d4037; /* A more neutral dark brown for hover */
+}
+
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+header {
+    background-color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--accent-color);
+}
+
+.btn {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 0.75rem 1.5rem;
+    text-transform: uppercase;
+    border-radius: 50px;
+    font-weight: 500;
+    border: 2px solid var(--primary-color);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--hover-dark);
+    color: var(--text-light);
+    transform: scale(1.05);
+}
+
+.section {
+    padding: 4rem 0;
+    text-align: center;
+}
+
+/* Home Section */
+#home {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--background-light);
+    color: var(--text-dark); /* Light mode text color */
+}
+
+#home .btn {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+#home h1, #home p {
+    color: var(--text-dark); /* Ensure visibility in light mode */
+}
+
+/* Dark Mode for Home Section */
+body.dark-mode #home {
+    background-color: var(--background-dark); /* Dark mode background */
+    color: var(--text-light); /* Light text color for dark mode */
+}
+
+body.dark-mode #home h1, body.dark-mode #home p {
+    color: var(--text-light); /* Light text for dark mode */
+}
+
+/* Typewriter Cursor */
+#cursor {
+    font-weight: bold;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Bento Grid */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 2rem;
+}
+
+.bento-item {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bento-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(139, 69, 19, 0.4); /* Slight hover glow */
+}
+
+.bento-item.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.bento-item.small {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.bento-item .btn {
+    margin-top: 1rem;
+}
+
+.bento-item h3 {
+    margin-bottom: 1rem;
+}
+
+.bento-item p {
+    margin-bottom: 1.5rem;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+
+.dark-mode header {
+    background-color: var(--background-dark);
+}
+
+.dark-mode nav ul li a {
+    color: var(--text-light);
+}
+
+.dark-mode .btn {
+    background-color: var(--accent-color);
+    color: var(--background-dark);
+    border: none;
+}
+
+.dark-mode .btn:hover {
+    background-color: var(--hover-dark);
+    color: var(--text-light);
+}
+
+.dark-mode h1, .dark-mode p, .dark-mode a {
+    color: var(--text-light);
+}
+
+.dark-mode .bento-item {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+}
+
+.dark-mode .bento-item:hover {
+    box-shadow: 0 8px 16px rgba(205, 133, 63, 0.6); /* Adjusted hover */
+}
+
+/* Scroll To Top Button */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#scrollToTopBtn:hover {
+    background-color: var(--hover-dark);
+}
+
+/* Contact Section */
+#contact {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+#contact h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+#contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#contact input,
+#contact textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#contact input:focus,
+#contact textarea:focus {
+    border-color: var(--text-light);
+}
+
+#contact textarea {
+    height: 150px;
+    resize: none;
+}
+
+#contact button {
+    background-color: var(--text-light);
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#contact button:hover {
+    background-color: var(--hover-dark);
+    color: var(--text-light);
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 1200px) {
+    .container {
+        width: 95%;
+    }
+
+    .bento-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    #home {
+        padding: 20px 10px;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .section {
+        padding: 3rem 0;
+    }
+
+    #home h1 {
+        font-size: 2rem;
+    }
+
+    #home p {
+        font-size: 1.1rem;
+    }
+
+    .bento-item {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #home h1 {
+        font-size: 1.8rem;
+    }
+
+    #home p {
+        font-size: 1rem;
+    }
+
+    .bento-item {
+        padding: 1rem;
+    }
+
+    #scrollToTopBtn {
+        padding: 8px;
+    }
+}

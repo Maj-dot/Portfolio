@@ -1,7 +1,17 @@
 # Brittany Herbert's Personal Portfolio
 
 ## Introduction
-Welcome to my personal portfolio! I’m a software engineer and DJ with a passion for creating user-friendly applications that merge creativity and technology. My work spans a range of projects from fitness and finance tracking to DJ management and entertainment platforms. I aim to develop applications that not only serve practical needs but also provide engaging, intuitive experiences. With a foundation in full-stack development, my portfolio highlights a blend of front-end and back-end skills that I’m continually growing.
+Welcome to my personal portfolio! I’m a software engineer and DJ with a passion for creating user-friendly applications that merge 
+creativity and technology. My work spans a range of projects from fitness and finance tracking to DJ management and entertainment 
+platforms. I aim to develop applications that not only serve practical needs but also provide engaging, intuitive experiences. 
+With a foundation in full-stack development, my portfolio highlights a blend of front-end and back-end skills that I’m continually growing.
+
+## Live Portfolio
+Explore my full portfolio and see a live demo of my work! This website brings together my skills, projects, 
+and contact information in a single, streamlined platform.
+
+	•	Portfolio Link: [Brittany Herbert Live Portfolio](https://maj-dot.github.io/Portfolio/)
+
 
 ## Featured Projects
 Here are some of the key projects included in my portfolio:

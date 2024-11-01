@@ -20,27 +20,28 @@ Here are some of the key projects included in my portfolio:
    - Description: An interactive guessing game that challenges users with daily trivia questions across various topics.
    - Technologies used: HTML, CSS, & JavaScript
    - Purpose: To create an engaging user experience and showcase real-time game logic 
-   - https://maj-dot.github.io/You-Guessed-It/
+   
+   [Check It Out Here!](https://maj-dot.github.io/You-Guessed-It/)
 
 2. **The Vibexperience**
    - A DJ management platform designed to streamline event scheduling and communication between DJs and event personnel.
    - Technologies/tools used:  HTML, CSS, JavaSript, Node.js, Express, MongoDB
    - Purpose: Originally developed as a booking app, The Vibexperience is currently under improvement develop to function as a 
    coordination tool for event teams, enhancing communication and organization for event planning.
-   - https://the-vibexperience-f7b30e48c10f.herokuapp.com/
+   - [Check It Out Here!](https://the-vibexperience-f7b30e48c10f.herokuapp.com/)
 
 3. **TruGrind**
    - Description: A fitness tracking app where users can log workouts, set goals, and track progress over time.
    - Technologies/Tools: MERN Stack (MongoDB, Express, React, Node), Chart.js for progress visualization.
    - Purpose: This project allows users to manage their fitness journey in a structured way, 
    offering customizable workout plans and visual progress reports.
-   - https://trugrind-e387b848377b.herokuapp.com//
+   - [Check It Out Here!](https://trugrind-e387b848377b.herokuapp.com//)
 
 4. **CoinWatch** 
     - Description: A cryptocurrency price tracker that provides live updates and allows users to monitor selected coins.
     - Technologies/Tools: Django, Celery for task scheduling, CoinGecko API, and PostgreSQL.
     - Purpose: Built to give users quick insights into cryptocurrency trends, with a straightforward UI for easy navigation.
-    - https://coinwatch-26f35a9e73f9.herokuapp.com/
+    - [Check It Out Here!](https://coinwatch-26f35a9e73f9.herokuapp.com/)
 
 ## Skills and Expertise
 Some of the key skills and areas of expertise I bring to my projects include:
@@ -56,7 +57,7 @@ If you'd like to get in touch or learn more about my work, you can find me on:
 
 - [LinkedIn](https://www.linkedin.com/in/brittany-herbert-360652333/)
 - [Personal Website](https://www.djmadammaj.com/)
-- Email: dev.bherbert@gmail.com
+- [Email](dev.bherbert@gmail.com)
 
 Feel free to reach out if you have any questions or would like to discuss potential collaborations.
 

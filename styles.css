@@ -280,6 +280,59 @@ body.dark-mode {
     transform: scale(1.05);
 }
 
+#game-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 400px;
+    background-color: #333;
+    margin: 20px auto;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#catcher {
+    position: absolute;
+    bottom: 10px;
+    width: 50px;
+    height: 20px;
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.falling-item {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background-image: url('records.png'); /* Placeholder for record image */
+    background-size: cover;
+    border-radius: 50%;
+    animation: fall linear;
+}
+
+#game-status {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-light);
+    margin-top: 15px;
+}
+
+@keyframes fall {
+    from { top: 0; }
+    to { top: 100%; }
+}
+
+#score {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--text-light);
+}
+
 /* Footer */
 footer {
     background-color: var(--primary-color);

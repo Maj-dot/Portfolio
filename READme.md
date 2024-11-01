@@ -10,7 +10,7 @@ With a foundation in full-stack development, my portfolio highlights a blend of 
 Explore my full portfolio and see a live demo of my work! This website brings together my skills, projects, 
 and contact information in a single, streamlined platform.
 
-	•	Portfolio Link: [Brittany Herbert Live Portfolio](https://maj-dot.github.io/Portfolio/)
+[Check Out My Portfolio Here!](https://maj-dot.github.io/Portfolio/)
 
 
 ## Featured Projects

@@ -195,6 +195,18 @@ a.btn:hover::after {
     border-radius: 5px;
 }
 
+.falling-item {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-image: url('records.png'); /* Ensure this path is correct */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    transition: top 0.03s linear;
+}
+
 /* Dark Mode Enhancements */
 body.dark-mode {
     background-color: var(--background-dark);

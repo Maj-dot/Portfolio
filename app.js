@@ -174,7 +174,7 @@ const Game = {
 
 // Typewriter functionality
 const Typewriter = {
-    text: "Hi, I'm Brittany Herbert",
+    text: "Hi, I'm Brittany Herbert, a software developer and DJ with a passion for blending tech and music. Here's my journey so far..",
     index: 0,
     cursorVisible: true,
     cursorInterval: null,

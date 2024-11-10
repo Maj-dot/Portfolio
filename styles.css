@@ -298,19 +298,17 @@ body.dark-mode {
     height: 20px;
     background-color: var(--accent-color);
     border-radius: 5px;
-    left: 50%;
-    transform: translateX(-50%);
+    transition: left 0.1s ease;
 }
 
 .falling-item {
     position: absolute;
-    top: 0;
     width: 40px;
     height: 40px;
     background-image: url('records.png'); /* Placeholder for record image */
-    background-size: cover;
+    /* background-size: cover; */
     border-radius: 50%;
-    animation: fall linear;
+    /* animation: fall linear; */
 }
 
 #game-status {

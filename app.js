@@ -9,8 +9,20 @@ const gameStatus = document.getElementById('game-status');
 
 const text = "Hi, I'm Brittany Herbert";
 let index = 0;
-const typewriterElement = document.getElementById('typewriter');
-const cursorElement = document.getElementById('cursor');
+// Typewriter effect
+function typeWriter() {
+    if (index < text.length) {
+        typewriterElement.innerHTML = text.substring(0, index + 1) + "<span id='cursor'>|</span>";
+        index++;
+        setTimeout(typeWriter, 100);
+    } else {
+        cursorElement.style.animation = 'none';
+    }
+}
+
+window.onload = () => {
+    typeWriter();
+};
 
 let score = 0;
 let missedRecords = 0;
@@ -23,10 +35,11 @@ let catcherPosition = gameContainer.offsetWidth / 2 - 25;
 // Update catcher position based on arrow keys
 document.addEventListener('keydown', (e) => {
     if (!isGameRunning) return;
+    const moveAmount = 20; // Increased for more responsive movement
     if (e.key === 'ArrowLeft' && catcherPosition > 0) {
-        catcherPosition -= 10;
+        catcherPosition = Math.max(0, catcherPosition - moveAmount);
     } else if (e.key === 'ArrowRight' && catcherPosition < gameContainer.offsetWidth - 50) {
-        catcherPosition += 10;
+        catcherPosition = Math.min(gameContainer.offsetWidth - 50, catcherPosition + moveAmount);
     }
     catcher.style.left = `${catcherPosition}px`;
 });
@@ -35,36 +48,47 @@ document.addEventListener('keydown', (e) => {
 function createFallingItem() {
     const item = document.createElement('div');
     item.classList.add('falling-item');
-    item.style.left = `${Math.random() * (gameContainer.offsetWidth - 40)}px`; // Adjust for item width
+    // Adjust starting position to account for item width
+    const startX = Math.random() * (gameContainer.offsetWidth - 40);
+    item.style.left = `${startX}px`;
+    item.style.top = '0px';
     gameContainer.appendChild(item);
+
+    let itemPosition = 0;
+    const fallSpeed = 5; // Adjust this value to change falling speed
 
     let fallInterval = setInterval(() => {
         if (!isGameRunning) {
             clearInterval(fallInterval);
+            item.remove();
             return;
         }
 
+        itemPosition += fallSpeed;
+        item.style.top = `${itemPosition}px`;
+
+        // Get updated positions for collision detection
         const itemRect = item.getBoundingClientRect();
         const catcherRect = catcher.getBoundingClientRect();
+        const containerRect = gameContainer.getBoundingClientRect();
 
-        // Check if item reaches the catcher
-        if (
-            itemRect.bottom >= catcherRect.top &&
-            itemRect.left >= catcherRect.left &&
-            itemRect.right <= catcherRect.right
-        ) {
+        // Check for collision with catcher
+        if (itemRect.bottom >= catcherRect.top &&
+            itemRect.top <= catcherRect.bottom &&
+            itemRect.right >= catcherRect.left &&
+            itemRect.left <= catcherRect.right) {
             item.remove();
             score += 1;
             scoreDisplay.textContent = `Score: ${score}`;
             clearInterval(fallInterval);
             checkGameStatus();
-        } else if (itemRect.bottom > gameContainer.offsetHeight) {
+        }
+        // Check if item has fallen past the catcher
+        else if (itemRect.top >= containerRect.bottom) {
             item.remove();
             missedRecords += 1;
             clearInterval(fallInterval);
             checkGameStatus();
-        } else {
-            item.style.top = `${item.offsetTop + 5}px`;
         }
     }, 30);
 }
@@ -78,11 +102,11 @@ startPauseBtn.addEventListener('click', () => {
     } else {
         isGameRunning = true;
         startPauseBtn.textContent = "Pause Game";
-        gameStatus.textContent = ""; // Clear status message
+        gameStatus.textContent = "";
         score = 0;
         missedRecords = 0;
         scoreDisplay.textContent = `Score: ${score}`;
-        gameInterval = setInterval(createFallingItem, 1000);
+        gameInterval = setInterval(createFallingItem, 1500); // Adjusted timing for better gameplay
     }
 });
 
@@ -101,6 +125,7 @@ function checkGameStatus() {
 function endGame() {
     isGameRunning = false;
     clearInterval(gameInterval);
+    // Remove all existing falling items
     Array.from(document.getElementsByClassName('falling-item')).forEach(item => item.remove());
     startPauseBtn.textContent = "Start Game";
 }
@@ -135,17 +160,3 @@ scrollToTopBtn.addEventListener('click', function() {
     });
 });
 
-// Typewriter effect
-function typeWriter() {
-    if (index < text.length) {
-        typewriterElement.innerHTML = text.substring(0, index + 1) + "<span id='cursor'>|</span>";
-        index++;
-        setTimeout(typeWriter, 100);
-    } else {
-        cursorElement.style.animation = 'none';
-    }
-}
-
-window.onload = () => {
-    typeWriter();
-};

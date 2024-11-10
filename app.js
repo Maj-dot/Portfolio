@@ -1,162 +1,239 @@
-const body = document.body;
-const toggleButton = document.getElementById('dark-mode-toggle');
-const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-const gameContainer = document.getElementById('game-container');
-const catcher = document.getElementById('catcher');
-const scoreDisplay = document.getElementById('score');
-const startPauseBtn = document.getElementById('start-pause-btn');
-const gameStatus = document.getElementById('game-status');
-
-const text = "Hi, I'm Brittany Herbert";
-let index = 0;
-// Typewriter effect
-function typeWriter() {
-    if (index < text.length) {
-        typewriterElement.innerHTML = text.substring(0, index + 1) + "<span id='cursor'>|</span>";
-        index++;
-        setTimeout(typeWriter, 100);
-    } else {
-        cursorElement.style.animation = 'none';
-    }
-}
-
-window.onload = () => {
-    typeWriter();
+// DOM Elements
+const DOM = {
+    body: document.body,
+    toggleButton: document.getElementById('dark-mode-toggle'),
+    scrollToTopBtn: document.getElementById('scrollToTopBtn'),
+    typewriterElement: document.getElementById('typewriter'),
+    cursorElement: document.getElementById('cursor')
 };
 
-let score = 0;
-let missedRecords = 0;
-const winningScore = 10;
-const maxMisses = 5;
-let isGameRunning = false;
-let gameInterval;
-let catcherPosition = gameContainer.offsetWidth / 2 - 25;
-
-// Update catcher position based on arrow keys
-document.addEventListener('keydown', (e) => {
-    if (!isGameRunning) return;
-    const moveAmount = 20; // Increased for more responsive movement
-    if (e.key === 'ArrowLeft' && catcherPosition > 0) {
-        catcherPosition = Math.max(0, catcherPosition - moveAmount);
-    } else if (e.key === 'ArrowRight' && catcherPosition < gameContainer.offsetWidth - 50) {
-        catcherPosition = Math.min(gameContainer.offsetWidth - 50, catcherPosition + moveAmount);
-    }
-    catcher.style.left = `${catcherPosition}px`;
-});
-
-// Function to create falling items (records)
-function createFallingItem() {
-    const item = document.createElement('div');
-    item.classList.add('falling-item');
-    // Adjust starting position to account for item width
-    const startX = Math.random() * (gameContainer.offsetWidth - 40);
-    item.style.left = `${startX}px`;
-    item.style.top = '0px';
-    gameContainer.appendChild(item);
-
-    let itemPosition = 0;
-    const fallSpeed = 5; // Adjust this value to change falling speed
-
-    let fallInterval = setInterval(() => {
-        if (!isGameRunning) {
-            clearInterval(fallInterval);
-            item.remove();
-            return;
+// Game Elements
+const Game = {
+    container: document.getElementById('game-container'),
+    catcher: document.getElementById('catcher'),
+    scoreDisplay: document.getElementById('score'),
+    startPauseBtn: document.getElementById('start-pause-btn'),
+    gameStatus: document.getElementById('game-status'),
+    
+    // Game state
+    score: 0,
+    missedRecords: 0,
+    winningScore: 10,
+    maxMisses: 5,
+    isRunning: false,
+    gameInterval: null,
+    catcherPosition: 0,
+    
+    // Game configuration
+    moveAmount: 20,
+    fallSpeed: 5,
+    spawnInterval: 1500,
+    
+    // Initialize game
+    init() {
+        this.catcherPosition = this.container.offsetWidth / 2 - 25;
+        this.setupEventListeners();
+        this.resetScore();
+    },
+    
+    // Event listeners setup
+    setupEventListeners() {
+        document.addEventListener('keydown', this.handleKeyPress.bind(this));
+        this.startPauseBtn.addEventListener('click', this.toggleGame.bind(this));
+    },
+    
+    // Handle keyboard input
+    handleKeyPress(e) {
+        if (!this.isRunning) return;
+        
+        if (e.key === 'ArrowLeft' && this.catcherPosition > 0) {
+            this.catcherPosition = Math.max(0, this.catcherPosition - this.moveAmount);
+        } else if (e.key === 'ArrowRight' && this.catcherPosition < this.container.offsetWidth - 50) {
+            this.catcherPosition = Math.min(this.container.offsetWidth - 50, this.catcherPosition + this.moveAmount);
         }
-
-        itemPosition += fallSpeed;
-        item.style.top = `${itemPosition}px`;
-
-        // Get updated positions for collision detection
+        this.catcher.style.left = `${this.catcherPosition}px`;
+    },
+    
+    // Create falling item
+    createFallingItem() {
+        const item = document.createElement('div');
+        item.classList.add('falling-item');
+        const startX = Math.random() * (this.container.offsetWidth - 40);
+        item.style.left = `${startX}px`;
+        item.style.top = '0px';
+        this.container.appendChild(item);
+        
+        let itemPosition = 0;
+        let fallInterval = setInterval(() => {
+            if (!this.isRunning) {
+                clearInterval(fallInterval);
+                item.remove();
+                return;
+            }
+            
+            itemPosition += this.fallSpeed;
+            item.style.top = `${itemPosition}px`;
+            
+            this.checkCollisions(item, itemPosition, fallInterval);
+        }, 30);
+    },
+    
+    // Check collisions
+    checkCollisions(item, itemPosition, fallInterval) {
         const itemRect = item.getBoundingClientRect();
-        const catcherRect = catcher.getBoundingClientRect();
-        const containerRect = gameContainer.getBoundingClientRect();
-
-        // Check for collision with catcher
-        if (itemRect.bottom >= catcherRect.top &&
-            itemRect.top <= catcherRect.bottom &&
-            itemRect.right >= catcherRect.left &&
-            itemRect.left <= catcherRect.right) {
-            item.remove();
-            score += 1;
-            scoreDisplay.textContent = `Score: ${score}`;
-            clearInterval(fallInterval);
-            checkGameStatus();
+        const catcherRect = this.catcher.getBoundingClientRect();
+        const containerRect = this.container.getBoundingClientRect();
+        
+        if (this.isCollision(itemRect, catcherRect)) {
+            this.handleCatch(item, fallInterval);
+        } else if (itemRect.top >= containerRect.bottom) {
+            this.handleMiss(item, fallInterval);
         }
-        // Check if item has fallen past the catcher
-        else if (itemRect.top >= containerRect.bottom) {
-            item.remove();
-            missedRecords += 1;
-            clearInterval(fallInterval);
-            checkGameStatus();
+    },
+    
+    // Collision detection
+    isCollision(itemRect, catcherRect) {
+        return itemRect.bottom >= catcherRect.top &&
+               itemRect.top <= catcherRect.bottom &&
+               itemRect.right >= catcherRect.left &&
+               itemRect.left <= catcherRect.right;
+    },
+    
+    // Handle successful catch
+    handleCatch(item, interval) {
+        item.remove();
+        clearInterval(interval);
+        this.score++;
+        this.updateScore();
+        this.checkGameStatus();
+    },
+    
+    // Handle missed item
+    handleMiss(item, interval) {
+        item.remove();
+        clearInterval(interval);
+        this.missedRecords++;
+        this.checkGameStatus();
+    },
+    
+    // Toggle game state
+    toggleGame() {
+        if (this.isRunning) {
+            this.pauseGame();
+        } else {
+            this.startGame();
         }
-    }, 30);
-}
-
-// Start or pause the game
-startPauseBtn.addEventListener('click', () => {
-    if (isGameRunning) {
-        isGameRunning = false;
-        startPauseBtn.textContent = "Start Game";
-        clearInterval(gameInterval);
-    } else {
-        isGameRunning = true;
-        startPauseBtn.textContent = "Pause Game";
-        gameStatus.textContent = "";
-        score = 0;
-        missedRecords = 0;
-        scoreDisplay.textContent = `Score: ${score}`;
-        gameInterval = setInterval(createFallingItem, 1500); // Adjusted timing for better gameplay
-    }
-});
-
-// Check for winning or losing conditions
-function checkGameStatus() {
-    if (score >= winningScore) {
-        gameStatus.textContent = "You Win! 🎉";
-        endGame();
-    } else if (missedRecords >= maxMisses) {
-        gameStatus.textContent = "Game Over. Try Again!";
-        endGame();
-    }
-}
-
-// End the game
-function endGame() {
-    isGameRunning = false;
-    clearInterval(gameInterval);
-    // Remove all existing falling items
-    Array.from(document.getElementsByClassName('falling-item')).forEach(item => item.remove());
-    startPauseBtn.textContent = "Start Game";
-}
-
-// Dark mode toggle
-toggleButton.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-});
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
-
-// Scroll to top button
-window.onscroll = function() {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        scrollToTopBtn.style.display = "block";
-    } else {
-        scrollToTopBtn.style.display = "none";
+    },
+    
+    // Start game
+    startGame() {
+        this.isRunning = true;
+        this.startPauseBtn.textContent = "Pause Game";
+        this.gameStatus.textContent = "";
+        this.resetScore();
+        this.gameInterval = setInterval(() => this.createFallingItem(), this.spawnInterval);
+    },
+    
+    // Pause game
+    pauseGame() {
+        this.isRunning = false;
+        this.startPauseBtn.textContent = "Start Game";
+        clearInterval(this.gameInterval);
+    },
+    
+    // Reset score
+    resetScore() {
+        this.score = 0;
+        this.missedRecords = 0;
+        this.updateScore();
+    },
+    
+    // Update score display
+    updateScore() {
+        this.scoreDisplay.textContent = `Score: ${this.score}`;
+    },
+    
+    // Check game status
+    checkGameStatus() {
+        if (this.score >= this.winningScore) {
+            this.endGame("You Win! 🎉");
+        } else if (this.missedRecords >= this.maxMisses) {
+            this.endGame("Game Over. Try Again!");
+        }
+    },
+    
+    // End game
+    endGame(message) {
+        this.isRunning = false;
+        clearInterval(this.gameInterval);
+        this.gameStatus.textContent = message;
+        this.startPauseBtn.textContent = "Start Game";
+        Array.from(document.getElementsByClassName('falling-item')).forEach(item => item.remove());
     }
 };
 
-scrollToTopBtn.addEventListener('click', function() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
+// Typewriter functionality
+const Typewriter = {
+    text: "Hi, I'm Brittany Herbert",
+    index: 0,
+    
+    init() {
+        this.type();
+    },
+    
+    type() {
+        if (this.index < this.text.length) {
+            DOM.typewriterElement.innerHTML = this.text.substring(0, this.index + 1) + "<span id='cursor'>|</span>";
+            this.index++;
+            setTimeout(() => this.type(), 100);
+        } else {
+            DOM.cursorElement.style.animation = 'none';
+        }
+    }
+};
 
+// Navigation functionality
+const Navigation = {
+    init() {
+        this.setupSmoothScroll();
+        this.setupScrollToTop();
+        this.setupDarkMode();
+    },
+    
+    setupSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector(anchor.getAttribute('href'))
+                    .scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    },
+    
+    setupScrollToTop() {
+        window.onscroll = () => {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                DOM.scrollToTopBtn.style.display = "block";
+            } else {
+                DOM.scrollToTopBtn.style.display = "none";
+            }
+        };
+        
+        DOM.scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    },
+    
+    setupDarkMode() {
+        DOM.toggleButton.addEventListener('click', () => {
+            DOM.body.classList.toggle('dark-mode');
+        });
+    }
+};
+
+// Initialize everything when the page loads
+window.onload = () => {
+    Game.init();
+    Typewriter.init();
+    Navigation.init();
+};

@@ -299,6 +299,7 @@ body.dark-mode {
     background-color: var(--accent-color);
     border-radius: 5px;
     transition: left 0.1s ease;
+    user-select: none; /* Prevent text selection during game */
 }
 
 .falling-item {
@@ -306,9 +307,12 @@ body.dark-mode {
     width: 40px;
     height: 40px;
     background-image: url('records.png'); /* Placeholder for record image */
-    /* background-size: cover; */
+    background-color: #fff; /* Fallback if image fails to load */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     border-radius: 50%;
-    /* animation: fall linear; */
+    transition: top 0.03s linear; /* Smoother falling animation */
 }
 
 #game-status {

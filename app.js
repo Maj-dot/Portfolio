@@ -176,19 +176,43 @@ const Game = {
 const Typewriter = {
     text: "Hi, I'm Brittany Herbert",
     index: 0,
+    cursorVisible: true,
+    cursorInterval: null,
     
     init() {
-        this.type();
+        // Reset the typewriter element
+        if (DOM.typewriterElement) {
+            DOM.typewriterElement.innerHTML = '<span id="cursor">|</span>';
+            this.type();
+            this.setupCursorBlink();
+        } else {
+            console.error('Typewriter element not found');
+        }
     },
     
     type() {
         if (this.index < this.text.length) {
-            DOM.typewriterElement.innerHTML = this.text.substring(0, this.index + 1) + "<span id='cursor'>|</span>";
+            // Get current text without cursor
+            const currentText = DOM.typewriterElement.innerHTML.replace('<span id="cursor">|</span>', '');
+            
+            // Add next character
+            DOM.typewriterElement.innerHTML = currentText + 
+                this.text.charAt(this.index) + 
+                '<span id="cursor">|</span>';
+                
             this.index++;
             setTimeout(() => this.type(), 100);
-        } else {
-            DOM.cursorElement.style.animation = 'none';
         }
+    },
+    
+    setupCursorBlink() {
+        this.cursorInterval = setInterval(() => {
+            const cursor = document.getElementById('cursor');
+            if (cursor) {
+                cursor.style.opacity = this.cursorVisible ? '0' : '1';
+                this.cursorVisible = !this.cursorVisible;
+            }
+        }, 700);
     }
 };
 
@@ -232,8 +256,16 @@ const Navigation = {
 };
 
 // Initialize everything when the page loads
-window.onload = () => {
-    Game.init();
+window.addEventListener('load', () => {
+    // Move sections to correct order in DOM if needed
+    const homeSection = document.getElementById('home');
+    const gameSection = document.getElementById('catch-the-dj-game');
+    if (homeSection && gameSection && homeSection.parentNode) {
+        homeSection.parentNode.insertBefore(homeSection, gameSection);
+    }
+    
+    // Initialize components
     Typewriter.init();
+    Game.init();
     Navigation.init();
-};
+});

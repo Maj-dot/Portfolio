@@ -307,7 +307,7 @@ body.dark-mode {
     width: 40px;
     height: 40px;
     background-image: url('records.png'); /* Placeholder for record image */
-    background-color: #fff; /* Fallback if image fails to load */
+    /* background-color: #fff; Fallback if image fails to load */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

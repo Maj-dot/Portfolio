@@ -74,6 +74,8 @@ const Game = {
     
     // Check if item and catcher are colliding
     isCollision(itemRect, catcherRect) {
+        console.log("itemRect", itemRect);
+        console.log("catcherRect", catcherRect);
         return itemRect.bottom >= catcherRect.top &&
                itemRect.top <= catcherRect.bottom &&
                itemRect.right >= catcherRect.left &&

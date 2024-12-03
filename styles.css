@@ -226,7 +226,7 @@ a.btn:hover::after {
         top: 0;
     }
     to {
-        top: 100vh; /* or adjust as needed for container size */
+        top: 380px; /* or adjust as needed for container size */
     }
 }
 

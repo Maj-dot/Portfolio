@@ -84,7 +84,8 @@ const Game = {
     
     // Handle successful catch
     handleCatch(item) {
-        item.remove();
+        item.style.backgroundColor = 'green';
+        if (item.parentNode) item.parentNode.removeChild(item);
         this.score++;
         this.updateScore();
         this.checkGameStatus();

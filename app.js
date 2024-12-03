@@ -74,33 +74,39 @@ const Game = {
     
     // Check if item and catcher are colliding
     isCollision(itemRect, catcherRect) {
-        console.log("itemRect", itemRect);
-        console.log("catcherRect", catcherRect);
-        return itemRect.bottom >= catcherRect.top &&
-               itemRect.top <= catcherRect.bottom &&
-               itemRect.right >= catcherRect.left &&
-               itemRect.left <= catcherRect.right;
+        const buffer = 10; // Add a small buffer for leniency
+        return (
+            itemRect.bottom >= catcherRect.top - buffer &&
+            itemRect.top <= catcherRect.bottom + buffer &&
+            itemRect.right >= catcherRect.left - buffer &&
+            itemRect.left <= catcherRect.right + buffer
+        );
     },
     
     // Handle successful catch
     handleCatch(item) {
-        item.style.backgroundColor = 'green';
-        if (item.parentNode) item.parentNode.removeChild(item);
+        if (item.parentNode) item.parentNode.removeChild(item); // Ensure removal
+        console.log("Caught an item!");
         this.score++;
         this.updateScore();
         this.checkGameStatus();
     },
 
     updateItemsPosition() {
-        this.items.forEach(item => {
-            const currentTop = parseInt(item.style.top) || 0;
-            item.style.top = `${currentTop + this.fallSpeed}px`;
-    
-            // Check for collision with catcher
-            if (this.isCollision(item.getBoundingClientRect(), this.catcher.getBoundingClientRect())) {
+        const catcherRect = this.catcher.getBoundingClientRect();
+        Array.from(this.container.getElementsByClassName('falling-item')).forEach(item => {
+            const itemRect = item.getBoundingClientRect();
+            
+            // Check for collision
+            if (this.isCollision(itemRect, catcherRect)) {
                 this.handleCatch(item);
             }
+            
+            // Move the item
+            const currentTop = parseInt(item.style.top) || 0;
+            item.style.top = `${currentTop + 5}px`; // Adjust speed as needed
         });
+    
         requestAnimationFrame(this.updateItemsPosition.bind(this));
     },
     

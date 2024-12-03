@@ -52,29 +52,36 @@ const Game = {
     createFallingItem() {
         const item = document.createElement('div');
         item.classList.add('falling-item');
-        
+    
         const startX = Math.random() * (this.container.offsetWidth - 40);
         item.style.left = `${startX}px`;
+        item.style.top = `0px`; // Start at the top
         this.container.appendChild(item);
-
-        // Event listener for collision or miss detection at the end of animation
-        item.addEventListener('animationend', () => {
-            if (this.isRunning) {
-                const itemRect = item.getBoundingClientRect();
-                const catcherRect = this.catcher.getBoundingClientRect();
-                if (this.isCollision(itemRect, catcherRect)) {
-                    this.handleCatch(item);
-                } else {
-                    this.handleMiss(item);
-                }
+    
+        const fallInterval = setInterval(() => {
+            const currentTop = parseInt(item.style.top) || 0;
+            const newTop = currentTop + 5; // Adjust speed as needed
+            item.style.top = `${newTop}px`;
+    
+            // Check for collision
+            const itemRect = item.getBoundingClientRect();
+            const catcherRect = this.catcher.getBoundingClientRect();
+            if (this.isCollision(itemRect, catcherRect)) {
+                clearInterval(fallInterval); // Stop falling
+                this.handleCatch(item);
             }
-            item.remove(); // Remove item after it reaches the end of animation
-        });
+    
+            // Remove item if it goes out of bounds
+            if (newTop > this.container.offsetHeight) {
+                clearInterval(fallInterval);
+                this.handleMiss(item);
+            }
+        }, 30); // Update every 30ms
     },
     
     // Check if item and catcher are colliding
     isCollision(itemRect, catcherRect) {
-        const buffer = 10; // Add a small buffer for leniency
+        const buffer = 10; // Add a buffer for leniency
         return (
             itemRect.bottom >= catcherRect.top - buffer &&
             itemRect.top <= catcherRect.bottom + buffer &&
@@ -85,8 +92,9 @@ const Game = {
     
     // Handle successful catch
     handleCatch(item) {
-        if (item.parentNode) item.parentNode.removeChild(item); // Ensure removal
         console.log("Caught an item!");
+        item.style.backgroundColor = 'green'; // Visual debug aid
+        item.remove();
         this.score++;
         this.updateScore();
         this.checkGameStatus();

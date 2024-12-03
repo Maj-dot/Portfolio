@@ -4,10 +4,10 @@ const DOM = {
     toggleButton: document.getElementById('dark-mode-toggle'),
     scrollToTopBtn: document.getElementById('scrollToTopBtn'),
     typewriterElement: document.getElementById('typewriter'),
-    cursorElement: document.getElementById('cursor')
+    cursorElement: document.getElementById('cursor'),
+    gameContainer: document.getElementById('game-container')
 };
 
-// Game Elements
 const Game = {
     container: document.getElementById('game-container'),
     catcher: document.getElementById('catcher'),
@@ -15,7 +15,6 @@ const Game = {
     startPauseBtn: document.getElementById('start-pause-btn'),
     gameStatus: document.getElementById('game-status'),
     
-    // Game state
     score: 0,
     missedRecords: 0,
     winningScore: 10,
@@ -24,25 +23,20 @@ const Game = {
     gameInterval: null,
     catcherPosition: 0,
     
-    // Game configuration
     moveAmount: 20,
-    fallSpeed: 5,
     spawnInterval: 1500,
     
-    // Initialize game
     init() {
         this.catcherPosition = this.container.offsetWidth / 2 - 25;
         this.setupEventListeners();
         this.resetScore();
     },
     
-    // Event listeners setup
     setupEventListeners() {
         document.addEventListener('keydown', this.handleKeyPress.bind(this));
         this.startPauseBtn.addEventListener('click', this.toggleGame.bind(this));
     },
     
-    // Handle keyboard input
     handleKeyPress(e) {
         if (!this.isRunning) return;
         
@@ -54,44 +48,31 @@ const Game = {
         this.catcher.style.left = `${this.catcherPosition}px`;
     },
     
-    // Create falling item
+    // Create falling item with CSS animation
     createFallingItem() {
         const item = document.createElement('div');
         item.classList.add('falling-item');
+        
         const startX = Math.random() * (this.container.offsetWidth - 40);
         item.style.left = `${startX}px`;
-        item.style.top = '0px';
         this.container.appendChild(item);
-        
-        let itemPosition = 0;
-        let fallInterval = setInterval(() => {
-            if (!this.isRunning) {
-                clearInterval(fallInterval);
-                item.remove();
-                return;
+
+        // Event listener for collision or miss detection at the end of animation
+        item.addEventListener('animationend', () => {
+            if (this.isRunning) {
+                const itemRect = item.getBoundingClientRect();
+                const catcherRect = this.catcher.getBoundingClientRect();
+                if (this.isCollision(itemRect, catcherRect)) {
+                    this.handleCatch(item);
+                } else {
+                    this.handleMiss(item);
+                }
             }
-            
-            itemPosition += this.fallSpeed;
-            item.style.top = `${itemPosition}px`;
-            
-            this.checkCollisions(item, itemPosition, fallInterval);
-        }, 30);
+            item.remove(); // Remove item after it reaches the end of animation
+        });
     },
     
-    // Check collisions
-    checkCollisions(item, itemPosition, fallInterval) {
-        const itemRect = item.getBoundingClientRect();
-        const catcherRect = this.catcher.getBoundingClientRect();
-        const containerRect = this.container.getBoundingClientRect();
-        
-        if (this.isCollision(itemRect, catcherRect)) {
-            this.handleCatch(item, fallInterval);
-        } else if (itemRect.top >= containerRect.bottom) {
-            this.handleMiss(item, fallInterval);
-        }
-    },
-    
-    // Collision detection
+    // Check if item and catcher are colliding
     isCollision(itemRect, catcherRect) {
         return itemRect.bottom >= catcherRect.top &&
                itemRect.top <= catcherRect.bottom &&
@@ -100,23 +81,33 @@ const Game = {
     },
     
     // Handle successful catch
-    handleCatch(item, interval) {
+    handleCatch(item) {
         item.remove();
-        clearInterval(interval);
         this.score++;
         this.updateScore();
         this.checkGameStatus();
     },
+
+    updateItemsPosition() {
+        this.items.forEach(item => {
+            const currentTop = parseInt(item.style.top) || 0;
+            item.style.top = `${currentTop + this.fallSpeed}px`;
+    
+            // Check for collision with catcher
+            if (this.isCollision(item.getBoundingClientRect(), this.catcher.getBoundingClientRect())) {
+                this.handleCatch(item);
+            }
+        });
+        requestAnimationFrame(this.updateItemsPosition.bind(this));
+    },
     
     // Handle missed item
-    handleMiss(item, interval) {
+    handleMiss(item) {
         item.remove();
-        clearInterval(interval);
         this.missedRecords++;
         this.checkGameStatus();
     },
     
-    // Toggle game state
     toggleGame() {
         if (this.isRunning) {
             this.pauseGame();
@@ -125,7 +116,6 @@ const Game = {
         }
     },
     
-    // Start game
     startGame() {
         this.isRunning = true;
         this.startPauseBtn.textContent = "Pause Game";
@@ -134,26 +124,22 @@ const Game = {
         this.gameInterval = setInterval(() => this.createFallingItem(), this.spawnInterval);
     },
     
-    // Pause game
     pauseGame() {
         this.isRunning = false;
         this.startPauseBtn.textContent = "Start Game";
         clearInterval(this.gameInterval);
     },
     
-    // Reset score
     resetScore() {
         this.score = 0;
         this.missedRecords = 0;
         this.updateScore();
     },
     
-    // Update score display
     updateScore() {
         this.scoreDisplay.textContent = `Score: ${this.score}`;
     },
     
-    // Check game status
     checkGameStatus() {
         if (this.score >= this.winningScore) {
             this.endGame("You Win! 🎉");
@@ -162,7 +148,6 @@ const Game = {
         }
     },
     
-    // End game
     endGame(message) {
         this.isRunning = false;
         clearInterval(this.gameInterval);

@@ -197,11 +197,14 @@ a.btn:hover::after {
     background: linear-gradient(to right, var(--accent-color), #1ed17a);
     box-shadow: 0 0 15px rgba(33, 208, 122, 0.3);
     border-radius: 5px;
-    width: 20px; /* adjust as needed */
+    width: 50px; /* adjust as needed */
     height: 20px; /* adjust as needed */
     position: absolute; /* ensures it can move freely */
     bottom: 10px; /* position catcher near the bottom of the container */
-    left: 0; /* initial position from the left */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    transition: left 0.1s linear; /* Smooth catcher movement */
+
 }
 
 .falling-item {

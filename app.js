@@ -71,6 +71,7 @@ const Game = {
   },
 
   handleSwipe(direction) {
+    console.log("Swipe detected:", direction);
     if (!this.isRunning) return;
 
     if (direction === "ArrowLeft" && this.catcherPosition > 0) {

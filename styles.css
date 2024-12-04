@@ -231,7 +231,7 @@ a.btn:hover::after {
   bottom: 10px; /* position catcher near the bottom of the container */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center horizontally */
-  transition: left 0.1s linear; /* Smooth catcher movement */
+  transition: left 0.1s ease-out; /* Smooth catcher movement */
 }
 
 .falling-item {

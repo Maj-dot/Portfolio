@@ -78,6 +78,26 @@ nav ul li a:hover::after {
     width: 100%;
 }
 
+
+#scrollToTopBtn {
+    position: absolute; /* Position relative to the content */
+    bottom: 20px;       /* Offset from the bottom of the container */
+    right: 20px;        /* Offset from the right of the container */
+    display: none;      /* Initially hidden */
+    padding: 10px 15px;
+    background-color: var(--accent-color); /* Use your theme color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 10; /* Ensure it appears above other content */
+}
+
+#scrollToTopBtn:hover {
+    background-color: var(--accent-hover-color); /* Add hover effect */
+}
+
 /* Enhanced Buttons */
 .btn, 
 a.btn {  /* Added a.btn to catch anchor tags with btn class */

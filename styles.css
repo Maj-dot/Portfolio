@@ -221,14 +221,14 @@ a.btn:hover::after {
 }
 
 /* CSS Animation for Falling Items */
-@keyframes fall {
+/* @keyframes fall {
     from {
         top: 0;
     }
     to {
         top: calc(100% - 30px); /* or adjust as needed for container size */
-    }
-}
+    /* } */
+/* } */ 
 
 /* Dark Mode Enhancements */
 body.dark-mode {

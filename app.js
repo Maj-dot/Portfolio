@@ -66,29 +66,36 @@ const Game = {
     hammer.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
 
     // Add swipe event listeners
-    hammer.on("swipeleft", () => this.handleSwipe("ArrowLeft"));
-    hammer.on("swiperight", () => this.handleSwipe("ArrowRight"));
+    hammer.on("swipeleft swiperight", (ev) => {
+      this.handleSwipe(ev);
+    });
   },
 
-  handleSwipe(direction) {
-    console.log("Swipe detected:", direction);
+  handleSwipe(ev) {
     if (!this.isRunning) return;
 
-    if (direction === "ArrowLeft" && this.catcherPosition > 0) {
-      this.catcherPosition = Math.max(
-        0,
-        this.catcherPosition - this.moveAmount
-      );
+    // Adjust movement based on swipe velocity
+    const velocityFactor = Math.abs(ev.velocityX); // Get the speed of the swipe
+    const moveDistance = this.moveAmount * Math.min(velocityFactor, 3); // Cap the multiplier at 3 for control
+
+    if (ev.type === "swipeleft" && this.catcherPosition > 0) {
+      this.catcherPosition = Math.max(0, this.catcherPosition - moveDistance);
     } else if (
-      direction === "ArrowRight" &&
+      ev.type === "swiperight" &&
       this.catcherPosition < this.container.offsetWidth - 50
     ) {
       this.catcherPosition = Math.min(
         this.container.offsetWidth - 50,
-        this.catcherPosition + this.moveAmount
+        this.catcherPosition + moveDistance
       );
     }
+
+    // Update catcher position
     this.catcher.style.left = `${this.catcherPosition}px`;
+
+    console.log(
+      `Swipe: ${ev.type}, Velocity: ${ev.velocityX}, Move: ${moveDistance}`
+    );
   },
 
   // Create falling item with CSS animation

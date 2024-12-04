@@ -257,7 +257,7 @@ const Navigation = {
         scrollToTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-    }
+    },
     
     setupDarkMode() {
         DOM.toggleButton.addEventListener('click', () => {

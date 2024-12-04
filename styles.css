@@ -220,16 +220,6 @@ a.btn:hover::after {
     transition: top 0.03s linear;
 }
 
-/* CSS Animation for Falling Items */
-/* @keyframes fall {
-    from {
-        top: 0;
-    }
-    to {
-        top: calc(100% - 30px); /* or adjust as needed for container size */
-    /* } */
-/* } */ 
-
 /* Dark Mode Enhancements */
 body.dark-mode {
     background-color: var(--background-dark);

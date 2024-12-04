@@ -237,18 +237,27 @@ const Navigation = {
     },
     
     setupScrollToTop() {
+        const scrollContainer = document.getElementById('scroll-container');
+        const scrollToTopBtn = DOM.scrollToTopBtn; // Reference the button
+    
+        // Show or hide button based on scroll position
         window.onscroll = () => {
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                DOM.scrollToTopBtn.style.display = "block";
+            const containerScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    
+            // Adjust button visibility
+            if (containerScrollTop > 100) {
+                scrollToTopBtn.style.display = 'block';
+                scrollToTopBtn.style.top = `${containerScrollTop + window.innerHeight - 80}px`; // Adjust button to scroll along
             } else {
-                DOM.scrollToTopBtn.style.display = "none";
+                scrollToTopBtn.style.display = 'none';
             }
         };
-        
-        DOM.scrollToTopBtn.addEventListener('click', () => {
+    
+        // Smooth scroll to the top when the button is clicked
+        scrollToTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-    },
+    }
     
     setupDarkMode() {
         DOM.toggleButton.addEventListener('click', () => {

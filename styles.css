@@ -264,12 +264,6 @@ a.btn:hover::after {
   background-color: #000; /* Match your game theme */
 }
 
-@media (max-width: 768px) {
-  #game-area {
-    width: 100vw;
-    height: 100vh;
-  }
-}
 
 /* Dark Mode Enhancements */
 body.dark-mode {
@@ -365,10 +359,14 @@ body.dark-mode {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768) {
   #game-container {
     width: 100%;
     height: 300px;
+  }
+  #game-area {
+    width: 100vw;
+    height: 100vh;
   }
   .catcher {
     width: 30px;

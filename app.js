@@ -26,6 +26,7 @@ const Game = {
   moveAmount: 20,
   spawnInterval: 1500,
 
+  //Game-Fumctionality
   init() {
     this.catcherPosition = this.container.offsetWidth / 2 - 25;
     this.setupEventListeners();
@@ -59,13 +60,8 @@ const Game = {
   },
 
   setupSwipeControls() {
-    // Initialize Hammer.js for swipe detection
     const hammer = new Hammer(this.container);
-
-    // Enable swipe gestures
     hammer.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
-
-    // Add swipe event listeners
     hammer.on("swipeleft swiperight", (ev) => {
       this.handleSwipe(ev);
     });
@@ -74,9 +70,8 @@ const Game = {
   handleSwipe(ev) {
     if (!this.isRunning) return;
 
-    // Adjust movement based on swipe velocity
-    const velocityFactor = Math.abs(ev.velocityX); // Get the speed of the swipe
-    const moveDistance = this.moveAmount * Math.min(velocityFactor, 3); // Cap the multiplier at 3 for control
+    const velocityFactor = Math.abs(ev.velocityX);
+    const moveDistance = this.moveAmount * Math.min(velocityFactor, 3);
 
     if (ev.type === "swipeleft" && this.catcherPosition > 0) {
       this.catcherPosition = Math.max(0, this.catcherPosition - moveDistance);
@@ -90,7 +85,6 @@ const Game = {
       );
     }
 
-    // Update catcher position
     this.catcher.style.left = `${this.catcherPosition}px`;
 
     console.log(
@@ -98,40 +92,36 @@ const Game = {
     );
   },
 
-  // Create falling item with CSS animation
   createFallingItem() {
     const item = document.createElement("div");
     item.classList.add("falling-item");
 
     const startX = Math.random() * (this.container.offsetWidth - 40);
     item.style.left = `${startX}px`;
-    item.style.top = `0px`; // Start at the top
+    item.style.top = `0px`;
     this.container.appendChild(item);
 
     const fallInterval = setInterval(() => {
       const currentTop = parseInt(item.style.top) || 0;
-      const newTop = currentTop + 5; // Adjust speed as needed
+      const newTop = currentTop + 5;
       item.style.top = `${newTop}px`;
 
-      // Check for collision
       const itemRect = item.getBoundingClientRect();
       const catcherRect = this.catcher.getBoundingClientRect();
       if (this.isCollision(itemRect, catcherRect)) {
-        clearInterval(fallInterval); // Stop falling
+        clearInterval(fallInterval);
         this.handleCatch(item);
       }
 
-      // Remove item if it goes out of bounds
       if (newTop > this.container.offsetHeight) {
         clearInterval(fallInterval);
         this.handleMiss(item);
       }
-    }, 30); // Update every 30ms
+    }, 30);
   },
 
-  // Check if item and catcher are colliding
   isCollision(itemRect, catcherRect) {
-    const buffer = 10; // Add a buffer for leniency
+    const buffer = 10;
     return (
       itemRect.bottom >= catcherRect.top - buffer &&
       itemRect.top <= catcherRect.bottom + buffer &&
@@ -140,7 +130,6 @@ const Game = {
     );
   },
 
-  // Handle successful catch
   handleCatch(item) {
     item.remove();
     this.score++;
@@ -154,21 +143,18 @@ const Game = {
       (item) => {
         const itemRect = item.getBoundingClientRect();
 
-        // Check for collision
         if (this.isCollision(itemRect, catcherRect)) {
           this.handleCatch(item);
         }
 
-        // Move the item
         const currentTop = parseInt(item.style.top) || 0;
-        item.style.top = `${currentTop + 5}px`; // Adjust speed as needed
+        item.style.top = `${currentTop + 5}px`;
       }
     );
 
     requestAnimationFrame(this.updateItemsPosition.bind(this));
   },
 
-  // Handle missed item
   handleMiss(item) {
     item.remove();
     this.missedRecords++;
@@ -231,7 +217,7 @@ const Game = {
 
 // Typewriter functionality
 const Typewriter = {
-  text: "Hi, I'm Brittany Herbert, a software developer and DJ with a passion for blending tech and music! Here's my journey so far..",
+  text: "Welcome, I'm Brittany Herbert, a software developer and DJ with a passion for blending tech and music! Here's my journey so far..",
   index: 0,
   cursorVisible: true,
   cursorInterval: null,
@@ -336,7 +322,6 @@ window.addEventListener("load", () => {
     homeSection.parentNode.insertBefore(homeSection, gameSection);
   }
 
-  // Initialize components
   Typewriter.init();
   Game.init();
   Navigation.init();

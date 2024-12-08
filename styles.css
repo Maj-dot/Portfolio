@@ -156,7 +156,8 @@ a.btn:hover::after {
   justify-content: center;
   align-items: center;
   padding: 6rem 2rem;
-  background: linear-gradient(135deg, var(--background-light) 0%, #f0f2f5 100%);
+  background: var(--background-light);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #home h1 {
@@ -260,6 +261,26 @@ a.btn:hover::after {
 body.dark-mode {
   background-color: var(--background-dark);
   color: var(--text-light);
+}
+
+body.dark-mode #home {
+  background: #1a1a1a; /* Off-black/dark gray */
+  color: #b8e0f2; /* Compatible light blue font */
+}
+
+body.dark-mode #home h1 {
+  background: linear-gradient(
+    to right,
+    #66d9ff, /* Light blue */
+    #21d07a  /* Green */
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.dark-mode #home p {
+  color: #cce7f6; /* Slightly brighter for readability */
 }
 
 .dark-mode header {

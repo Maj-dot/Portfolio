@@ -249,17 +249,15 @@ const Typewriter = {
 
   type() {
     if (this.index < this.text.length) {
-      // Get current text without cursor
-      const currentText = DOM.typewriterElement.innerHTML.replace(
-        '<span id="cursor">|</span>',
-        ""
-      );
+      // Remove the cursor temporarily
+      const cursor = document.getElementById("cursor");
+      if (cursor) cursor.remove();
 
-      // Add next character
-      DOM.typewriterElement.innerHTML =
-        currentText +
-        this.text.charAt(this.index) +
-        '<span id="cursor">|</span>';
+      // Append the next character
+      DOM.typewriterElement.innerHTML += this.text.charAt(this.index);
+
+      // Append the cursor back
+      DOM.typewriterElement.innerHTML += '<span id="cursor">|</span>';
 
       this.index++;
       setTimeout(() => this.type(), 100);

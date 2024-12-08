@@ -406,6 +406,13 @@ body.dark-mode #home p {
   background-color: #f0f0f0;
 }
 
+footer {
+  background: var(--secondary-color);
+  color: var(--text-light);
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   #contact {
     padding: 3rem 1rem;

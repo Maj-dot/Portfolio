@@ -289,6 +289,12 @@ body.dark-mode {
   padding: 4rem 2rem;
 }
 
+#contact ul {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
 #contact form {
   max-width: 600px;
   margin: 0 auto;

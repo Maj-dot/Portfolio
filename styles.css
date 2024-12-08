@@ -264,15 +264,15 @@ body.dark-mode {
 }
 
 body.dark-mode #home {
-  background: #1a1a1a; /* Off-black/dark gray */
-  color: #b8e0f2; /* Compatible light blue font */
+  background: #1a1a1a; 
+  color: #b8e0f2; 
 }
 
 body.dark-mode #home h1 {
   background: linear-gradient(
     to right,
-    #66d9ff, /* Light blue */
-    #21d07a  /* Green */
+    #66d9ff, 
+    #21d07a  
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -280,7 +280,7 @@ body.dark-mode #home h1 {
 }
 
 body.dark-mode #home p {
-  color: #cce7f6; /* Slightly brighter for readability */
+  color: #cce7f6; 
 }
 
 .dark-mode header {
@@ -301,6 +301,21 @@ body.dark-mode #home p {
   transform: scale(0.95);
 }
 
+
+.custom-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+}
+
+.custom-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 #contact {
   background: linear-gradient(
     145deg,

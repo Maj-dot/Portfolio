@@ -258,6 +258,32 @@ a.btn:hover::after {
   background-color: #000;
 }
 
+.section {
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+#catch-the-dj-game h2, 
+#catch-the-dj-game p {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 1.5rem 1rem;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+}
+
 body.dark-mode {
   background-color: var(--background-dark);
   color: var(--text-light);

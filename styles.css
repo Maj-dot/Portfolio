@@ -407,6 +407,30 @@ body.dark-mode #home p {
   background-color: #f0f0f0;
 }
 
+#resume {
+  text-align: center;
+  padding: 2rem 0; /* Add some vertical spacing */
+}
+
+#resume .btn {
+  background-color: var(--accent-color); /* Use your accent color */
+  color: #fff; /* White text for contrast */
+  padding: 0.5rem 1.5rem; /* Smaller padding for a compact button */
+  border-radius: 25px; /* Rounded edges */
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: var(--card-shadow); /* Subtle shadow for depth */
+  transition: all 0.3s ease;
+}
+
+#resume .btn:hover {
+  background-color: #f0f0f0; /* Lighter background on hover */
+  color: var(--accent-color); /* Invert colors for hover */
+  transform: translateY(-2px); /* Add a slight lift on hover */
+  box-shadow: var(--hover-shadow); /* Enhanced shadow on hover */
+}
+
 footer {
   background: var(--secondary-color);
   color: var(--text-light);
